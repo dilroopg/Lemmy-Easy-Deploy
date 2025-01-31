@@ -8,7 +8,7 @@ services:
     image: {{COMPOSE_CADDY_IMAGE}}
     env_file:  
       - ./caddy.env
-      {{ CADDY_EXTRA_ENV | default('') | indent(6, true) }}
+      - "{{ CADDY_EXTRA_ENV }}"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
