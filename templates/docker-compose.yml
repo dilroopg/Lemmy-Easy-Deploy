@@ -81,7 +81,7 @@ services:
     shm_size: ${POSTGRES_SHM_SIZE}
     logging: *default-logging
 
-{{EMAIL_SERVICE}}
+    {{EMAIL_SERVICE}}
 
 volumes:
   caddy_data:
