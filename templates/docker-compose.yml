@@ -3,6 +3,7 @@ x-logging:
   driver: json-file
   options:
     max-size: '500m'
+
 services:
   proxy:
     {{COMPOSE_CADDY_IMAGE}}
