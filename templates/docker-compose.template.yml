@@ -1,13 +1,11 @@
-x-logging:
-  &default-logging
+x-logging: &default-logging
+  driver: json-file
   options:
     max-size: '500m'
-  driver: json-file
 
 services:
-
   proxy:
-    {{COMPOSE_CADDY_IMAGE}}
+    image: {{COMPOSE_CADDY_IMAGE}}
     env_file:
       - ./caddy.env
       - {{ CADDY_EXTRA_ENV }}
@@ -25,8 +23,9 @@ services:
     logging: *default-logging
 
   lemmy:
-    {{COMPOSE_LEMMY_IMAGE}}
-    env_file: {{ LEMMY_EXTRA_ENV }}
+    image: {{COMPOSE_LEMMY_IMAGE}}
+    env_file:
+      - {{ LEMMY_EXTRA_ENV }}
     volumes:
       - ./lemmy.hjson:/config/config.hjson
     depends_on:
@@ -36,8 +35,9 @@ services:
     logging: *default-logging
 
   lemmy-ui:
-    {{COMPOSE_LEMMY_UI_IMAGE}}
-    env_file: {{ LEMMY_UI_EXTRA_ENV }}
+    image: {{COMPOSE_LEMMY_UI_IMAGE}}
+    env_file:
+      - {{ LEMMY_UI_EXTRA_ENV }}
     environment:
       - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
       - LEMMY_UI_LEMMY_EXTERNAL_HOST=localhost:1236
@@ -50,7 +50,7 @@ services:
 
   pictrs:
     image: asonix/pictrs:0.5
-    user: 991:991
+    user: "991:991"
     environment:
       - PICTRS__MEDIA__ANIMATION__MAX_WIDTH=256
       - PICTRS__MEDIA__ANIMATION__MAX_HEIGHT=256
@@ -88,4 +88,4 @@ volumes:
   caddy_config:
   pictrs_data:
   postgres_data:
-{{EMAIL_VOLUMES}}
+  {{EMAIL_VOLUMES}}
