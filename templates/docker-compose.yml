@@ -5,17 +5,17 @@ x-logging: &default-logging
 
 services:
   proxy:
-    image: {{COMPOSE_CADDY_IMAGE}}
+    image: ${COMPOSE_CADDY_IMAGE}
     env_file:  
       - ./caddy.env
-      - "{{ CADDY_EXTRA_ENV }}"
+      - ${CADDY_EXTRA_ENV}
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     ports:
-      - {{CADDY_HTTP_PORT}}:80
-      - {{CADDY_HTTPS_PORT}}:443
+      - ${CADDY_HTTP_PORT}:80
+      - ${CADDY_HTTPS_PORT}:443
     depends_on:
       - pictrs
       - lemmy-ui
@@ -23,9 +23,9 @@ services:
     logging: *default-logging
 
   lemmy:
-    image: {{COMPOSE_LEMMY_IMAGE}}
+    image: ${COMPOSE_LEMMY_IMAGE}
     env_file:
-      - {{ LEMMY_EXTRA_ENV }}
+      - ${LEMMY_EXTRA_ENV}
     volumes:
       - ./lemmy.hjson:/config/config.hjson
     depends_on:
@@ -35,9 +35,9 @@ services:
     logging: *default-logging
 
   lemmy-ui:
-    image: {{COMPOSE_LEMMY_UI_IMAGE}}
+    image: ${COMPOSE_LEMMY_UI_IMAGE}
     env_file:
-      - {{ LEMMY_UI_EXTRA_ENV }}
+      - ${LEMMY_UI_EXTRA_ENV}
     environment:
       - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
       - LEMMY_UI_LEMMY_EXTERNAL_HOST=localhost:1236
@@ -60,7 +60,7 @@ services:
       - PICTRS__MEDIA__VIDEO__MAX_FILE_SIZE=20
     env_file:
       - ./pictrs.env
-      - {{ PICTRS_EXTRA_ENV }}
+      - ${PICTRS_EXTRA_ENV}
     volumes:
       - pictrs_data:/mnt
     restart: always
@@ -73,19 +73,19 @@ services:
       - POSTGRES_DB=lemmy
     env_file:
       - ./postgres.env
-      - {{ POSTGRES_EXTRA_ENV }}
+      - ${POSTGRES_EXTRA_ENV}
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - {{ POSTGRES_CONF }}
+      - ${POSTGRES_CONF}
     restart: always
-    shm_size: {{POSTGRES_SHM_SIZE}}
+    shm_size: ${POSTGRES_SHM_SIZE}
     logging: *default-logging
 
-{{EMAIL_SERVICE}}
+${EMAIL_SERVICE}
 
 volumes:
   caddy_data:
   caddy_config:
   pictrs_data:
   postgres_data:
-  {{EMAIL_VOLUMES}}
+  ${EMAIL_VOLUMES}
