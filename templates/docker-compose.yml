@@ -5,7 +5,6 @@ x-logging:
   driver: json-file
 
 services:
-
   proxy:
     {{COMPOSE_CADDY_IMAGE}}
     env_file:
