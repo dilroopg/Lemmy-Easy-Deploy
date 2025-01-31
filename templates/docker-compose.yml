@@ -81,11 +81,11 @@ services:
     shm_size: ${POSTGRES_SHM_SIZE}
     logging: *default-logging
 
-${EMAIL_SERVICE}
+{{EMAIL_SERVICE}}
 
 volumes:
   caddy_data:
   caddy_config:
   pictrs_data:
   postgres_data:
-  ${EMAIL_VOLUMES}
+{{EMAIL_VOLUMES}}
