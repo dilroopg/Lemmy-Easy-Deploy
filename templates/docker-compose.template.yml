@@ -6,9 +6,9 @@ x-logging: &default-logging
 services:
   proxy:
     image: {{COMPOSE_CADDY_IMAGE}}
-    env_file:
+    env_file:  
       - ./caddy.env
-      - {{ CADDY_EXTRA_ENV }}
+      {{ CADDY_EXTRA_ENV | default('') | indent(6, true) }}
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
